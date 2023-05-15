@@ -2,10 +2,7 @@ syntax = "proto3";
 
 package turing;
 
-service TuringPi {
-  // rpc SetSpeed (SetSpeedRequest) returns (SetSpeedResponse);
-  rpc Ping(PingRequest) returns (PingResponse);
-}
+service TuringPi { rpc Ping(PingRequest) returns (PingResponse); }
 
 message PingRequest {}
 
