@@ -23,7 +23,7 @@ impl TuringPi for TpiServer {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>>{
-    let addr = "0.0.0.0:50051".parse()?;
+    let addr = "0.0.0.0:13337".parse()?;
 
     let tpi_server = TpiServer;
 
