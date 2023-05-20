@@ -2,10 +2,14 @@
 name = "turing-pi"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+authors = ["Louis Meyer (H1ghBre4k3r) <h1ghbe4k3r@dev.bre4k3r.de>"]
+description = "Software for interacting with the Turing Pi 2."
+license = "GPL-3.0"
+readme = "README.md"
+repository = "https://github.com/H1ghBre4k3r/tpi"
 
 [dependencies]
+clap = { version = "4.3.0", features = ["derive"]}
 
 [profile.release]
 strip = true    # Automatically strip symbols from the binary.

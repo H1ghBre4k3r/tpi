@@ -5,9 +5,10 @@ use crate::gpio::{
         GpioPin, MODE1_EN, MODE2_EN, MODE3_EN, MODE4_EN, PORT1_EN, PORT1_RST, PORT2_EN, PORT2_RST,
         PORT3_EN, PORT3_RST, PORT4_EN, PORT4_RST,
     },
-    GpioError, GpioState,
+    GpioResult, GpioState,
 };
 
+/// Struct for representing a node on the Turing Pi 2.
 #[derive(Debug, Clone)]
 pub struct Node {
     mode: GpioPin,
@@ -57,11 +58,13 @@ pub const NODE_4: Node = Node {
 };
 
 impl Node {
-    pub fn get_power(&self) -> Result<NodePower, GpioError> {
+    /// Get the power status of this node.
+    pub fn get_power(&self) -> GpioResult<NodePower> {
         Ok((self.mode.read()?.is_high() && self.port.read()?.is_low()).into())
     }
 
-    pub fn set_power(&self, power: NodePower) -> Result<(), GpioError> {
+    /// Set the power status of this node.
+    pub fn set_power(&self, power: NodePower) -> GpioResult<()> {
         if power == NodePower::Off {
             self.port.write(GpioState::High)?;
             sleep(Duration::from_millis(100));
@@ -85,11 +88,13 @@ impl Node {
         Ok(())
     }
 
-    pub fn power_on(&self) -> Result<(), GpioError> {
+    /// Power this node on.
+    pub fn power_on(&self) -> GpioResult<()> {
         self.set_power(NodePower::On)
     }
 
-    pub fn power_off(&self) -> Result<(), GpioError> {
+    /// Power this node off.
+    pub fn power_off(&self) -> GpioResult<()> {
         self.set_power(NodePower::Off)
     }
 }

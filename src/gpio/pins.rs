@@ -1,8 +1,9 @@
 use std::fs::File;
 use std::io::prelude::*;
 
-use super::{GpioError, GpioState};
+use super::{GpioError, GpioResult, GpioState};
 
+/// A pin on the Turing Pi 2 board.
 #[derive(Debug, Clone, Copy)]
 pub enum GpioPin {
     PB(u8),
@@ -68,7 +69,8 @@ pub const USB_SWITCH: GpioPin = GpioPin::PG(5);
 pub const USB_PWEN: GpioPin = GpioPin::PG(4);
 
 impl GpioPin {
-    pub fn read(&self) -> Result<GpioState, GpioError> {
+    /// Read the current value from this GPIO pin.
+    pub fn read(&self) -> GpioResult<GpioState> {
         let gpio_path = format!("/sys/class/gpio/gpio{}/value", u8::from(*self));
 
         let Ok(mut file) = File::open(&gpio_path) else {
@@ -89,7 +91,8 @@ impl GpioPin {
         Ok(gpio_value.into())
     }
 
-    pub fn write(&self, value: GpioState) -> Result<(), GpioError> {
+    /// Write a value to this GPIO pin.
+    pub fn write(&self, value: GpioState) -> GpioResult<()> {
         let gpio_path = format!("/sys/class/gpio/gpio{}/value", u8::from(*self));
 
         if std::fs::write(&gpio_path, format!("{}", u8::from(value))).is_err() {
