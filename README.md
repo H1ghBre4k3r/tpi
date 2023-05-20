@@ -2,10 +2,6 @@
 
 An small (and WIP) CLI for interacting with your local TuringPi 2 Cluster, written in Rust.
 
-## DISCLAIMER
-
-USE THIS SOFTWARE AT YOUR OWN RISK! I DO NOT TAKE ANY RESPONSIBILITY FOR DAMAGED HARDWARE.
-
 ### Prerequisites
 
 In order to be able to compile this software, you need an `armv7-unknown-linux-gnueabihf`-toolchain available on your system. To achieve that, first install the Rust target for that:
