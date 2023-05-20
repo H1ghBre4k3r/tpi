@@ -26,7 +26,7 @@ These are for correctly linking the program (and doing other cross compilation s
 Now, you can compile the CLI via cargo:
 
 ```shell
-cargo build --release
+cargo build --bin tpi --release
 ```
 
 This creates the executable in the `target` folder:
