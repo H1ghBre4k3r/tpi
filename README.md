@@ -1,6 +1,6 @@
 # TPI
 
-An small (and WIP) CLI for interacting with your local TuringPi 2 Cluster, written in Rust.
+An small (and WIP) CLI for interacting with your local TuringPi 2 Cluster, written in Rust. Most of this code is ported from the original [Turing Pi repo](https://github.com/turing-machines/turing-pi).
 
 ### Prerequisites
 
