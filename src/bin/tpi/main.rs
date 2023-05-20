@@ -1,19 +1,10 @@
 use std::error::Error;
 
-use tonic::Request;
-use turing::{turing_pi_client::TuringPiClient, PingRequest};
+use turing_pi::nodes::NODE_1;
 
-pub mod turing {
-    tonic::include_proto!("turing");
-}
+fn main() -> Result<(), Box<dyn Error>> {
+    let power = NODE_1.get_power()?;
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn Error>> {
-    let mut client = TuringPiClient::connect("http://192.168.2.160:50051").await?;
-
-    let request = Request::new(PingRequest {});
-
-    let response = client.ping(request).await?;
-
+    println!("Power of node 1: {power:#?}");
     Ok(())
 }

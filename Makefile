@@ -5,5 +5,4 @@ ifdef release
 endif
 
 build:
-	cargo build --bin tpi $(RELEASE) && \
-	cargo build --target armv7-unknown-linux-gnueabihf --bin tpi-server $(RELEASE)
+	cargo build --bin tpi $(RELEASE)

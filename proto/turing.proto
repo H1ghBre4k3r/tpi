@@ -1,9 +1,0 @@
-syntax = "proto3";
-
-package turing;
-
-service TuringPi { rpc Ping(PingRequest) returns (PingResponse); }
-
-message PingRequest {}
-
-message PingResponse {}
