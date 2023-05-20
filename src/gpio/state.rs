@@ -31,3 +31,13 @@ impl From<char> for GpioState {
         }
     }
 }
+
+impl From<GpioState> for u8 {
+    fn from(value: GpioState) -> Self {
+        use GpioState::*;
+        match value {
+            High => 1,
+            Low => 0,
+        }
+    }
+}

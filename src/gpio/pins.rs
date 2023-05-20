@@ -88,4 +88,14 @@ impl GpioPin {
 
         Ok(gpio_value.into())
     }
+
+    pub fn write(&self, value: GpioState) -> Result<(), GpioError> {
+        let gpio_path = format!("/sys/class/gpio/gpio{}/value", u8::from(*self));
+
+        if std::fs::write(&gpio_path, format!("{}", u8::from(value))).is_err() {
+            return Err(GpioError(format!("Could not write to file '{gpio_path}'")));
+        };
+
+        Ok(())
+    }
 }

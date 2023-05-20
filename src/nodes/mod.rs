@@ -1,9 +1,11 @@
+use std::{thread::sleep, time::Duration};
+
 use crate::gpio::{
     pins::{
         GpioPin, MODE1_EN, MODE2_EN, MODE3_EN, MODE4_EN, PORT1_EN, PORT1_RST, PORT2_EN, PORT2_RST,
         PORT3_EN, PORT3_RST, PORT4_EN, PORT4_RST,
     },
-    GpioError,
+    GpioError, GpioState,
 };
 
 #[derive(Debug, Clone)]
@@ -13,7 +15,7 @@ pub struct Node {
     reset: GpioPin,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum NodePower {
     On,
     Off,
@@ -57,5 +59,37 @@ pub const NODE_4: Node = Node {
 impl Node {
     pub fn get_power(&self) -> Result<NodePower, GpioError> {
         Ok((self.mode.read()?.is_high() && self.port.read()?.is_low()).into())
+    }
+
+    pub fn set_power(&self, power: NodePower) -> Result<(), GpioError> {
+        if power == NodePower::Off {
+            self.port.write(GpioState::High)?;
+            sleep(Duration::from_millis(100));
+            self.mode.write(GpioState::Low)?;
+
+            if 118u8 != self.reset.into() {
+                sleep(Duration::from_millis(100));
+                self.reset.write(GpioState::Low)?;
+            }
+        } else {
+            self.port.write(GpioState::Low)?;
+            sleep(Duration::from_millis(100));
+            self.mode.write(GpioState::High)?;
+
+            if 118u8 != self.reset.into() {
+                sleep(Duration::from_millis(100));
+                self.reset.write(GpioState::High)?;
+            }
+        }
+
+        Ok(())
+    }
+
+    pub fn power_on(&self) -> Result<(), GpioError> {
+        self.set_power(NodePower::On)
+    }
+
+    pub fn power_off(&self) -> Result<(), GpioError> {
+        self.set_power(NodePower::Off)
     }
 }
